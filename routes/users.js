@@ -38,7 +38,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new localStrategy(function (username, password, done) {
-    User.getuserByUsername(username, function (err, user) {
+    User.getUserByUsername(username, function (err, user) {
         if (err) throw err;
         if (!user) {
             return done(null, false, {message: "Unkown user"})
@@ -105,6 +105,12 @@ router.post('/register', upload.single('profileimage'), function (req, res, next
         res.redirect('/');
     }
 
+});
+
+router.get('/logout', function(req, res){
+    req.logout();
+    req.flash('success', 'You are now out');
+    res.redirect('/users/login');
 });
 
 
